@@ -1,12 +1,9 @@
 ## Download data and unzip files
-if (!dir.exists("electric data")){
-  dir.create("electric data")
+if (!file.exists("electric_data.zip")){
+  download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip","electric_data.zip")
 }
-if (!file.exists("electric data/electric_data.zip")){
-  download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip","electric data")
-}
-if (!file.exists("electric data/household_power_consumption.txt")){
-  unzip("electric data/electric_data.zip",exdir="electric data")
+if (!file.exists("household_power_consumption.txt")){
+  unzip("electric_data.zip")
 }
 ## Read data
 electric<- read.table("electric data/household_power_consumption.txt",sep=";",header=T,na.strings = "?")
@@ -19,7 +16,7 @@ date_and_time<- paste(electric_selected$Date,electric_selected$Time)
 date_and_time<-strptime(date_and_time,"%Y-%m-%d %H:%M:%S")
 electric_selected$Time<-date_and_time
 ## Generate the plot
-png("electric data/plot4.png",width=480,height=480,units="px")
+png("plot4.png",width=480,height=480,units="px")
 par(mfrow=c(2,2))
 plot(electric_selected$Time,electric_selected$Global_active_power,type="l",xlab="",ylab="Global Active Power")
 plot(electric_selected$Time,electric_selected$Voltage,type="l",xlab="datetime",ylab="Voltage")
